@@ -1,0 +1,202 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<title>Книги</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="import" href="/index.html">
+    <style>
+        .rating-result {
+            width: 120%;
+        }
+
+        .rating-result span {
+            padding: 0;
+            font-size: 32px;
+            margin: 0 3px;
+            line-height: 1;
+            color: lightgrey;
+            text-shadow: 1px 1px #bbb;
+        }
+
+        .rating-result > span:before {
+            content: '★';
+        }
+
+        .rating-result > span.active {
+            color: gold;
+            text-shadow: 1px 1px #c60;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar bg-light"
+            style="border-radius: 15px;  white-space: nowrap;
+     width: 100%">
+        <ul class="navbar-nav bd-navbar-nav flex-row" style=" width: 100%;">
+            <li class="nav-item">
+                <input class="form-control mr-sm-4" type="text" id="list" placeholder="Search"
+                       style="white-space:nowrap;">
+            </li>
+            <li class="nav-item" style="margin-left: 10px">
+                <button class="btn btn-outline-success my-2 my-sm-0" id="search" type="submit"
+                        style="white-space:nowrap;">Поиск
+                </button>
+            </li>
+            <li class="nav-item dropdown еу" style="white-space:nowrap;">
+                <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions"
+                   data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false" style="color: #ff0808">
+                    Администрирование</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
+                    <a class="dropdown-item " onclick="window.location.href='orderList'"> Заказы клиентов</a>
+                    <div class="dropdown-divider"></div>
+<!--                    <a class="dropdown-item " onclick="window.location.href='price'"> Прайс листы</a>-->
+<!--                    <a class="dropdown-item " onclick="window.location.href='invoiceList'"> Накладные</a>-->
+<!--                    <a class="dropdown-item " onclick="window.location.href='orderProvider'"> Заказы поставщикам</a>-->
+<!--                    <div class="dropdown-divider"></div>-->
+<!--                    <a class="dropdown-item " onclick="window.location.href='outgoingDoc'">Расходные документы</a>-->
+<!--                    <div class="dropdown-divider"></div>-->
+<!--                    <a class="dropdown-item " onclick="window.location.href='discount'">Скидки</a>-->
+<!--                    <div class="dropdown-divider"></div>-->
+<!--                    <a class="dropdown-item " onclick="window.location.href='client'"> Покупатели</a>-->
+<!--                    <a class="dropdown-item " onclick="window.location.href='provider'"> Поставщики</a>-->
+<!--                    <a class="dropdown-item " onclick="window.location.href='manufacturer'"> Производители</a>-->
+                    <a class="dropdown-item " onclick="window.location.href='product'">Справочник товаров</a>
+                    <a class="dropdown-item " onclick="window.location.href='branchOffice'">Справочник филиалов</a>
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item " onclick="window.location.href='employee'">Сотрудники</a>
+                </div>
+            </li>
+        </ul>
+        <button class="btn btn-outline-success" id="lk" style="white-space:nowrap;"
+                onclick="window.location.href='lk'"
+                type="button">Личный кабинет
+        </button>
+        <button class="btn btn-outline-success  d-lg-inline-block mb-3 mb-md-0 ml-md-3" id="order" onclick="window.location.href='order'" type="submit">
+            Корзина
+        </button>
+    </header>
+
+    <div class="row" style="width: 100%;">
+        <div class="col-3">
+            <form style="width: 80%; height: 200px; margin-top:5px;">
+                <label>Цена</label>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" id="priceMin" class="form-control" placeholder="От">
+                    </div>
+                    <div class="col">
+                        <input type="text" id="priceMax" class="form-control" placeholder="До">
+                    </div>
+                </div>
+                <label>Наименование</label>
+                <div class="form-row">
+                    <div class="col">
+                            <input type="text" class="form-control"  id="name">
+                    </div>
+                </div>
+                <label>Автор</label>
+                <div class="form-row">
+                    <div class="col">
+                      <input type="text" class="form-control" id="author">
+                    </div>
+                </div>
+                <label>Год издания</label>
+                <div class="form-row">
+                    <div class="col">
+                       <input class="form-control" type="date" id="date">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="button" class="btn btn-primary" data-toggle="button" style="margin-top: 15px"
+                            aria-pressed="false"
+                            autocomplete="off">
+                        Поиск
+                    </button>
+                    <button type="button" class="btn btn-primary" data-toggle="button" style="margin-top: 15px"
+                            aria-pressed="false"
+                            autocomplete="off">
+                        Сбросить
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-9">
+            <div class="flex-column-reverse">
+                <div class="row top-buffer"
+                     style="margin-top:20px; background-color: white;  border-radius: 10px; width: 105%">
+                    <div class="left-arrow">
+                        <img src="" class="card-img-bottom"
+                             style="max-width: 130px;">
+                    </div>
+                    <div class="card-body left-arrow">
+                        <div class="row">
+                            <div class="col-4">
+                                <h5 class="card-title">Название книги</h5>
+                            </div>
+                            <div class="col-8 text-right">
+                                <div class="text-right" style="white-space: nowrap">
+                                    <h3 style="color: green">
+                                        2132452.11 руб.
+                                    </h3>
+                                    <h5>
+                                        <s style="color: red"> 1000010.32 руб. </s>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-text">Описание книги</p>
+                        <div class="text-left" style="width: 100%">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="#" class="btn btn-primary">Карточка товара</a>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <a href="#" class="btn btn-primary text-right">Добавить в корзину</a>
+                                </div>
+                            </div>
+                            <ul class="navbar-nav bd-navbar-nav flex-row">
+                                <li>
+                                    <div class="rating-result text-left">
+                                        <span class="active"></span>
+                                        <span class="active"></span>
+                                        <span class="active"></span>
+                                        <span></span>
+                                        <span></span>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4 style="margin-top: 2px">
+                                        (2)
+                                    </h4>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

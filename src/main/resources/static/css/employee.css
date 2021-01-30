@@ -1,0 +1,25 @@
+.marked {
+    background-color: #8a8a8a;
+}
+
+.disable {
+    pointer-events: none;
+    text-decoration: none;
+}
+
+.span-message {
+    color: red;
+    font-size: 10px;
+    margin-top: -9px
+}
+
+.group {
+    height: 85px;
+    max-height: 85px;
+}
+
+.table-style {
+    max-height: 340px;
+    height: 340px;
+    overflow: scroll
+}

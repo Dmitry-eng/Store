@@ -1,0 +1,180 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<title>Сотрудники</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta th:name="uuid" th:content="${uuid}">
+    <meta th:name="employee" th:content="${employee}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/showAlert.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/employee.css}">
+    <script type="text/javascript" th:src="@{/js/newEmployee.js}"></script>
+    <link rel="import" href="/index.html">
+
+</head>
+<body>
+<div class="container">
+
+
+    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar bg-light"
+            style="border-radius: 15px;  white-space: nowrap;
+     width: 100%">
+
+        <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions"
+           data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false" style="color: #ff0808">
+            Администрирование</a>
+        <div class="dropdown-menu" aria-labelledby="bd-versions">
+            <a class="dropdown-item " onclick="window.location.href='orderList'"> Заказы клиентов</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item " onclick="window.location.href='price'"> Прайс листы</a>
+            <a class="dropdown-item " onclick="window.location.href='invoiceList'"> Накладные</a>
+            <a class="dropdown-item " onclick="window.location.href='orderProvider'"> Заказы поставщикам</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item " onclick="window.location.href='outgoingDoc'">Расходные документы</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item " onclick="window.location.href='discount'">Скидки</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item " onclick="window.location.href='client'"> Покупатели</a>
+            <a class="dropdown-item " onclick="window.location.href='provider'"> Поставщики</a>
+            <a class="dropdown-item " onclick="window.location.href='manufacturer'"> Производители</a>
+            <a class="dropdown-item " onclick="window.location.href='product'">Справочник товаров</a>
+            <a class="dropdown-item " onclick="window.location.href='branchOffice'">Справочник филиалов</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item " onclick="window.location.href='bindingInvoice'">Привязка накладных</a>
+            <a class="dropdown-item " onclick="window.location.href='bindingPrice'">Привязка прайс листов</a>
+            <a class="dropdown-item " onclick="window.location.href='template'">Шаблоны поставщиков/производителей</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item " onclick="window.location.href='/employee'">Сотрудники</a>
+        </div>
+    </header>
+    <form id="form" style="width: 100%; padding-left: 15px">
+        <div class="form-group row">
+            <div class="col-6  col-sm-6 col-xl-3">
+                <div class="form-group group">
+                    <label>Логин</label>
+                    <div class="row" style="width: 120%">
+                        <div class="col-10" style="width: 99%">
+                            <input type="text" class="form-control" id="login">
+                        </div>
+                        <div class="cols-2" style="width: 1%;">
+                            <p id="pinValidLogin" style="padding-top: 5px"></p>
+                        </div>
+                    </div>
+                    <span class="span-message" id="messageValidLogin"></span>
+                </div>
+                <div class="form-group group">
+                    <label for="password">Пароль</label>
+                    <div class="row" style="width: 120%">
+                        <div class="col-10" style="width: 99%">
+                            <input type="password" class="form-control"  id="password">
+                        </div>
+                        <div class="cols-2" style="width: 1%;">
+                            <p id="validPassword" style="padding-top: 5px"></p>
+                        </div>
+                    </div>
+                    <span class="span-message" id="messageValidPassword"></span>
+                </div>
+                <div class="form-group group">
+                    <label for="inputEmail">Email</label>
+                    <div class="row" style="width: 120%">
+                        <div class="col-10" style="width: 99%">
+                            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+                        </div>
+                        <div class="cols-2" style="width: 1%;">
+                            <p id="validEmail" style="padding-top: 5px"></p>
+                        </div>
+                    </div>
+                    <span class="span-message" id="messageValidEmail"></span>
+                </div>
+                <div class="form-group group">
+                    <label>Номер телефона</label>
+                    <input type="text" id="phoneNumber" class="form-control">
+                </div>
+            </div>
+            <div class="col-6  col-sm-6 col-xl-3">
+                <div class="form-group group">
+                    <label>Фамлия</label>
+                    <div class="row" style="width: 120%">
+                        <div class="col-10" style="width: 99%">
+                            <input type="text" id="lastName" class="form-control">
+                        </div>
+                        <div class="cols-2" style="width: 1%;">
+                            <p id="validPasswordLastName" style="padding-top: 5px"></p>
+                        </div>
+                    </div>
+                    <span class="span-message" id="messageValidLastName"></span>
+                </div>
+                <div class="form-group group">
+                    <label>Имя</label>
+                    <div class="row" style="width: 120%">
+                        <div class="col-10" style="width: 99%">
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="cols-2" style="width: 1%;">
+                            <p id="validName" style="padding-top: 5px"></p>
+                        </div>
+                    </div>
+                    <span class="span-message" id="messageValidName"></span>
+                </div>
+                <div class="form-group group">
+                    <label>Отчество</label>
+                    <div class="row" style="width: 120%">
+                        <div class="col-10" style="width: 99%">
+                            <input type="text" id="middleName" class="form-control" required>
+                        </div>
+                        <div class="cols-2" style="width: 1%;">
+                            <p id="pinMiddleName" style="padding-top: 5px"></p>
+                        </div>
+                    </div>
+                    <span id="middleNameValid" class="span-message"></span>
+                </div>
+                <div class="form-group group">
+                    <label>Дата рождения</label>
+                    <input type="date" id="birthDate" class="form-control">
+                </div>
+            </div>
+
+            <div class="col-6  col-sm-6 col-xl-3">
+                <div class="form-group">
+                    <label style="padding-left: 35%">Филиал</label>
+                    <div class="table-style">
+                        <table class="table">
+                            <tbody id="branch">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6 col-xl-3">
+                <div class="form-group">
+                    <label style="padding-left: 30%">Должность</label>
+                    <div class="table-style">
+                        <table class="table">
+                            <tbody id="position">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="padding-top: 15px">
+            <button type="button" id="send"  data-toggle="button" class="btn btn-primary">
+                Сохранить
+            </button>
+        </div>
+    </form>
+    <div id="alert-area" class="alert-area"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+INSERT INTO user_roles (user_id, roles_id) values ('123e4567-e89b-12d3-a456-426655440000', '2')
